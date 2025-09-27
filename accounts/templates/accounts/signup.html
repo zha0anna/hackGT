@@ -1,11 +1,81 @@
 {% extends "base.html" %}
+
 {% block content %}
-<div class="container py-5">
-  <h2 class="mb-4 eggshell-text">Sign Up</h2>
-  <form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit" class="btn navy-bg eggshell-text mt-2">Sign Up</button>
-  </form>
+<style>
+  body {
+    background-color: #E5E6C4 !important;
+  }
+
+  .signup-container {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+  }
+
+  .signup-form {
+    background-color: #ffffff;
+    padding: 3rem 4rem;
+    border-radius: 15px;
+    box-shadow: 0 6px 10px rgba(0,0,0,0.15);
+    width: 800px; /* width stays fixed */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* evenly distributes space top to bottom */
+  }
+
+  .signup-form .form-control {
+    font-size: 1.1rem;
+    padding: 0.5rem 0.75rem;
+  }
+
+  .signup-form .btn {
+    font-size: 1.1rem;
+    padding: 0.6rem 0;
+  }
+
+  .signup-form h2 {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .signup-form form > div {
+    margin-bottom: 1rem;
+  }
+</style>
+
+<div class="signup-container">
+  <div class="signup-form">
+    <h2 class="eggshell-text text-center">Sign Up</h2>
+    <form method="post">
+      {% csrf_token %}
+
+      <div>
+        <label for="id_username" class="form-label">Username:</label>
+        <input type="text" id="id_username" name="username" class="form-control"
+               required minlength="3" maxlength="20" placeholder="3-20 characters">
+      </div>
+
+      <div>
+        <label for="id_email" class="form-label">Email Address:</label>
+        <input type="email" id="id_email" name="email" class="form-control" required>
+      </div>
+
+      <div>
+        <label for="id_password" class="form-label">Password:</label>
+        <input type="password" id="id_password" name="password" class="form-control"
+               required minlength="8" placeholder="Minimum 8 characters">
+      </div>
+
+      <div>
+        <label for="id_confirm_password" class="form-label">Confirm Password:</label>
+        <input type="password" id="id_confirm_password" name="confirm_password" class="form-control"
+               required minlength="8" placeholder="Re-enter your password">
+      </div>
+
+      <button type="submit" class="btn navy-bg eggshell-text w-100 mt-3">Sign Up</button>
+    </form>
+  </div>
 </div>
 {% endblock %}
