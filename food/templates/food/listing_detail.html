@@ -3,18 +3,21 @@
 <div class="container py-5">
   <h2 class="mb-3 eggshell-text">{{ listing.title }}</h2>
   <p>{{ listing.description }}</p>
-  <p><strong>Location:</strong> {{ listing.location }}</p>
+  <p><strong>Pickup Location:</strong> {{ listing.location }}</p>
   {% if listing.image %}
     <img src="{{ listing.image.url }}" class="img-card-home mb-3">
   {% endif %}
 
   {% if user.is_authenticated and not listing.claimed %}
     <a href="{% url 'claim_listing' listing.pk %}" class="btn navy-bg eggshell-text mb-3">Claim</a>
+    {% elif listing.claimed and user == listing.claimer %}
+    <a href="{% url 'unclaim_listing' listing.pk %}" class="btn navy-bg eggshell-text mb-3">Unclaim</a>
   {% elif listing.claimed %}
     <p><em>Claimed by {{ listing.claimer.username }}</em></p>
   {% endif %}
 
   <h4>Comments</h4>
+  <p>Communicate a pickup time</p>
   {% for comment in comments %}
     <p><strong>{{ comment.user.username }}:</strong> {{ comment.text }}</p>
   {% empty %}

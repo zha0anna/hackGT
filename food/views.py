@@ -43,3 +43,25 @@ def claim_listing_view(request, pk):
         listing.claimer = request.user
         listing.save()
     return redirect("listing_detail", pk=pk)
+
+@login_required
+def unclaim_listing_view(request, pk):
+    listing = get_object_or_404(FoodListing, pk=pk)
+    if listing.claimed:
+        listing.claimed = False
+        listing.claimer = None
+        listing.save()
+    return redirect("listing_detail", pk=pk)
+
+@login_required
+def my_activity_view(request):
+    # Listings the user created
+    my_listings = request.user.food_listings.all()
+    # Listings the user claimed
+    my_claims = request.user.claimed_food.all()
+    
+    context = {
+        "my_listings": my_listings,
+        "my_claims": my_claims
+    }
+    return render(request, "food/my_activity.html", context)
