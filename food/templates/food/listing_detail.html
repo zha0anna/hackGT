@@ -1,21 +1,192 @@
 {% extends "base.html" %}
 {% block content %}
 <div class="container py-5">
-  <h2 class="mb-3 eggshell-text">{{ listing.title }}</h2>
-  <p>{{ listing.description }}</p>
-  <p><strong>Pickup Location:</strong> {{ listing.location }}</p>
-  {% if listing.image %}
-    <img src="{{ listing.image.url }}" class="img-card-home mb-3">
-  {% endif %}
+  <div class="row align-items-start">
+    <div class="col-md-4 text-center"> 
+      {% if listing.image %}
+        <img src="{{ listing.image.url }}" class="img-card-home mb-3" style="width: 300px; height: auto;">
+      {% endif %}
 
-  {% if user.is_authenticated and not listing.claimed %}
-    <a href="{% url 'claim_listing' listing.pk %}" class="btn navy-bg eggshell-text mb-3">Claim</a>
-    {% elif listing.claimed and user == listing.claimer %}
-    <a href="{% url 'unclaim_listing' listing.pk %}" class="btn navy-bg eggshell-text mb-3">Unclaim</a>
-  {% elif listing.claimed %}
-    <p><em>Claimed by {{ listing.claimer.username }}</em></p>
-  {% endif %}
+      <!-- ✅ Moved claim button directly under image -->
+      <div class="mt-3">
+        {% if user.is_authenticated and not listing.claimed %}
+          <!-- ✅ added 'claim-btn' here -->
+          <a href="{% url 'claim_listing' listing.pk %}" class="btn navy-bg eggshell-text claim-btn mt-2">Claim</a>
+        {% elif listing.claimed and user == listing.claimer %}
+          <!-- ✅ added 'claim-btn' here -->
+          <a href="{% url 'unclaim_listing' listing.pk %}" class="btn navy-bg eggshell-text claim-btn mt-2">Unclaim</a>
+        {% elif listing.claimed %}
+          <p class="mt-2 claim-status"><em>Claimed by {{ listing.claimer.username }}</em></p>
+        {% endif %}
+      </div>
+    </div>
 
+    <div class="col-md-8"> 
+        <div class="item-details mb-5"> 
+        <h2 class="mb-2 eggshell-text">{{ listing.title }}</h2>
+
+
+        <p class="mb-2"><strong>Description:</strong> {{ listing.description }}</p>
+        <p class="mb-0"><strong>Pickup Location:</strong> {{ listing.location }}</p>
+    </div>
+
+      <!-- 💬 COMMENTS SECTION -->
+      <div class="comments-section pt-3 border-top"> <!-- ✅ Divider to show separate section -->
+        <p style="font-size: 1.3rem; font-weight: 600; color: #333; margin-bottom: 0.3rem;">
+          Comments
+        </p>
+        <p style="font-size: 0.9rem; color: #555; margin-top: 0;">
+          Communicate a pickup time
+        </p>
+
+        <div class="comment-section mt-2 p-3"> 
+          <!-- ✅ Existing comments -->
+          <div class="existing-comments" id="existing-comments">
+            {% for comment in comments %}
+              <div class="comment mb-2">
+                <strong>{{ comment.user.username }}</strong> 
+                <span>{{ comment.text }}</span><br>
+                <small class="timestamp text-muted">{{ comment.created_at|timesince }} ago</small>
+              </div>
+            {% empty %}
+              <p class="text-muted">No comments yet.</p>
+            {% endfor %}
+          </div>
+
+          <!-- ✅ Comment form -->
+          {% if user.is_authenticated %}
+            <form method="post" class="comment-form mt-2">
+              {% csrf_token %}
+              <textarea 
+                name="{{ form.text.name }}" 
+                id="{{ form.text.id_for_label }}" 
+                class="comment-input" 
+                placeholder="Comment here"></textarea>
+              <button type="submit" class="btn navy-bg eggshell-text btn-sm mt-2">Post</button>
+            </form>
+          {% else %}
+            <p class="text-muted mt-2">Login to comment.</p>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ✅ Styles -->
+<style>
+/* 📦 Item details spacing */
+.item-details p {
+  font-size: 1rem;
+  color: #333;
+  line-height: 1.5;
+}
+
+/* 💬 Comments section spacing */
+.comments-section {
+  margin-top: 2.5rem; /* ✅ clear separation from above */
+}
+
+/* ✅ Comment box styling */
+.comment-section {
+  background-color: #f8f9fa;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.existing-comments {
+  max-height: 300px;
+  overflow-y: auto;
+  padding-right: 8px;
+}
+
+.comment {
+  font-size: 0.95rem;
+  line-height: 1.4;
+  margin-bottom: 0.8rem;
+}
+
+.comment strong {
+  font-weight: 600;
+  margin-right: 5px;
+}
+
+.timestamp {
+  font-size: 0.8rem;
+  color: #999;
+}
+
+.comment-input {
+  width: 100%;
+  border: none;
+  border-top: 1px solid #ccc;
+  resize: none;
+  font-size: 0.95rem;
+  padding: 8px 0;
+  outline: none;
+  background: transparent;
+}
+
+.comment-input::placeholder {
+  font-style: italic;
+  color: #888;
+}
+
+.comment-input:focus {
+  outline: none;
+  border-top: 2px solid #000;
+}
+
+.comment-form button {
+  float: right;
+  font-size: 0.9rem;
+  padding: 4px 12px;
+  border-radius: 20px;
+}
+
+.claim-btn {
+  font-family: 'Frank Ruhl Libre', serif; /* ✅ same as site font */
+  font-size: 1rem; /* ✅ same size as description text */
+  font-weight: 500;
+  letter-spacing: 0.3px;
+  padding: 0.6rem 1.8rem;
+  border-radius: 30px;
+  text-transform: none;
+}
+
+.claim-btn:hover {
+  transform: scale(0.97);
+  transition: 0.2s ease-in-out;
+}
+
+/* ✅ Claimed status font matches as well */
+.claim-status {
+  font-family: 'Frank Ruhl Libre', serif;
+  font-size: 1rem;
+  color: #333;
+}
+
+</style>
+
+<!-- ✅ Auto-resizing textarea -->
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const textarea = document.querySelector(".comment-input");
+  if (textarea) {
+    textarea.style.overflow = "hidden";
+    textarea.style.resize = "none";
+    textarea.addEventListener("input", () => {
+      textarea.style.height = "auto";
+      textarea.style.height = textarea.scrollHeight + "px";
+    });
+  }
+});
+</script>
+
+
+<!-- 
   <h4>Comments</h4>
   <p>Communicate a pickup time</p>
   {% for comment in comments %}
@@ -34,4 +205,6 @@
     <p>Login to comment.</p>
   {% endif %}
 </div>
+-->
+
 {% endblock %}
