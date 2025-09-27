@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
@@ -16,25 +15,22 @@ class SignupForm(forms.ModelForm):
 
 def signup_view(request):
     if request.method == "POST":
-        form = SignupForm(request.POST)
-        if form.is_valid():
-            if form.cleaned_data["password"] != form.cleaned_data["password2"]:
-                messages.error(request, "Passwords do not match")
-                return redirect("signup")
-            if User.objects.filter(username=form.cleaned_data["username"]).exists():
-                messages.error(request, "Username already taken")
-                return redirect("signup")
-            user = User.objects.create_user(
-                username=form.cleaned_data["username"],
-                email=form.cleaned_data["email"],
-                password=form.cleaned_data["password"]
-            )
-            user.save()
-            messages.success(request, "Account created successfully! Please log in.")
-            return redirect("login")
-    else:
-        form = SignupForm()
-    return render(request, "accounts/signup.html", {"form": form})
+        username = request.POST.get("username")
+        email = request.POST.get("email")
+        password1 = request.POST.get("password1")
+        password2 = request.POST.get("password2")
+
+        if password1 != password2:
+            messages.error(request, "Passwords do not match.")
+        elif User.objects.filter(username=username).exists():
+            messages.error(request, "Username already taken.")
+        elif User.objects.filter(email=email).exists():
+            messages.error(request, "Email already registered.")
+        else:
+            User.objects.create_user(username=username, email=email, password=password1)
+            messages.success(request, "Account created successfully!")
+            return redirect("login")  # change to your login URL
+    return render(request, "accounts/signup.html")
 
 
 def login_view(request):
