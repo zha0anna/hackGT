@@ -2,20 +2,22 @@
 {% load static %}
 {% block content %}
 <style>
-/* 🔁 Elegant scrolling free banner */
+/*
+
+
 .free-banner {
-  background-color: rgba(255, 255, 255, 0.15); /* ✅ slightly visible soft white */
-  color: #000;                                /* ✅ black text */
+  background-color: rgba(255, 255, 255, 0.15); 
+  color: #000;                              
   font-family: 'Frank Ruhl Libre', serif;
   font-size: 2rem;
-  font-weight: 70;                           /* ✅ light & thin */
-  font-style: italic;                         /* ✅ italicized */
+  font-weight: 70;                          
+  font-style: italic;                         
   white-space: nowrap;
   overflow: hidden;
   position: relative;
   padding: 0.4rem 0;
   letter-spacing: 4px;
-  text-transform: none;                       /* ✅ lowercase stays */
+  text-transform: none;                     
 }
 
 .free-banner-track {
@@ -23,6 +25,7 @@
   white-space: nowrap;
   animation: scrollBanner 40s linear infinite;
 }
+
 
 @keyframes scrollBanner {
   from {
@@ -32,6 +35,8 @@
     transform: translateX(-50%);
   }
 }
+
+*/
 
 
   
@@ -86,13 +91,13 @@
   transform: scale(1.05);
 }
 </style>
-
-<!-- 🔁 Scrolling free Banner -->
+<!--
 <div class="free-banner">
   <div class="free-banner-track">
     <span>free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · frees</span>
   </div>
 </div>
+-->
 
 
 <header class="masthead bg-index eggshell-text text-center py-5">
@@ -115,7 +120,7 @@
         <div class="mt-4 text-center">
           <a href="{% url 'listings' %}" class="btn navy-bg eggshell-text hero-btn">Find Food</a>
           <a href="{% url 'create_listing' %}" class="btn navy-bg eggshell-text hero-btn">Post Food</a>
-          <a href="#" class="btn navy-bg eggshell-text hero-btn">About</a>
+          <a href="{% url 'home.about' %}" class="btn navy-bg eggshell-text hero-btn">About</a>
         </div>
       </div>
     </div>
