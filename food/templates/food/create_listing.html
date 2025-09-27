@@ -1,11 +1,105 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="container py-5">
-  <h2 class="mb-4 eggshell-text">Post a Food Listing</h2>
-  <form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit" class="btn navy-bg eggshell-text mt-2">Post Listing</button>
-  </form>
+<div class="container-fluid py-5" style="background-color: #E5E6C4;">
+  <div class="container">
+    <!-- White Rounded Rectangle Wrapper -->
+    <div class="p-4 rounded shadow d-flex flex-column" style="background-color: #FFFFFF; min-height: 100%;">
+      <!-- Top: Header -->
+      <h2 class="mb-4 eggshell-text">New Post</h2>
+
+      <!-- Middle: Form -->
+      <form method="post" enctype="multipart/form-data" class="d-flex flex-column flex-grow-1">
+        {% csrf_token %}
+        <div class="row align-items-stretch flex-grow-1">
+          <!-- Left Side: Fields -->
+          <div class="col-md-6 d-flex flex-column">
+            <div class="mb-3">
+              <label for="{{ form.title.id_for_label }}" class="form-label d-block">Title:</label>
+              {{ form.title }}
+            </div>
+
+            <div class="mb-3">
+              <label for="{{ form.description.id_for_label }}" class="form-label d-block">Description:</label>
+              {{ form.description }}
+            </div>
+
+            <div class="mb-3">
+              <label for="{{ form.location.id_for_label }}" class="form-label d-block">Location:</label>
+              {{ form.location }}
+            </div>
+
+            <div class="mb-3">
+              <label for="{{ form.quantity.id_for_label }}" class="form-label d-block">Quantity:</label>
+              {{ form.quantity }}
+            </div>
+
+            <!-- Push button to bottom -->
+            <div class="mt-auto">
+              <button type="submit" class="btn navy-bg eggshell-text">Post Listing</button>
+            </div>
+          </div>
+
+          <!-- Right Side: Image Upload -->
+          <div class="col-md-6 d-flex justify-content-center align-items-center">
+            <div id="image-upload-container" 
+                 style="width: 100%; max-width: 400px; height: 100%; min-height: 400px; border: 2px dashed #ccc; display: flex; flex-direction: column; justify-content: center; align-items: center; cursor: pointer; background-size: cover; background-position: center; border-radius: 10px;">
+              {{ form.image }}
+              <span id="upload-text" style="text-decoration: underline; color: #555; font-size: 16px; margin-top: 10px;">
+                upload picture here
+              </span>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
 </div>
+
+<style>
+  /* Make description box 100px tall */
+
+
+  /* Hide the default file input inside the upload rectangle */
+  #image-upload-container input[type="file"] {
+    display: none;
+  }
+
+  /* Hide text once an image is uploaded */
+  #image-upload-container.has-image #upload-text {
+    display: none;
+  }
+</style>
+
+<script>
+  const container = document.getElementById('image-upload-container');
+  const input = container.querySelector('input[type="file"]');
+  const uploadText = document.getElementById('upload-text');
+
+  // Trigger file input click when rectangle is clicked
+  container.addEventListener('click', () => {
+    input.click();
+  });
+
+  // Show selected image preview
+  input.addEventListener('change', () => {
+    const file = input.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        container.style.backgroundImage = `url(${e.target.result})`;
+        container.classList.add("has-image");
+      }
+      reader.readAsDataURL(file);
+    }
+  });
+</script>
 {% endblock %}
+
+
+
+
+
+
+
+
+
