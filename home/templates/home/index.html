@@ -1,26 +1,127 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
+<style>
+/* 🔁 Elegant scrolling free banner */
+.free-banner {
+  background-color: rgba(255, 255, 255, 0.15); /* ✅ slightly visible soft white */
+  color: #000;                                /* ✅ black text */
+  font-family: 'Frank Ruhl Libre', serif;
+  font-size: 2rem;
+  font-weight: 70;                           /* ✅ light & thin */
+  font-style: italic;                         /* ✅ italicized */
+  white-space: nowrap;
+  overflow: hidden;
+  position: relative;
+  padding: 0.4rem 0;
+  letter-spacing: 4px;
+  text-transform: none;                       /* ✅ lowercase stays */
+}
+
+.free-banner-track {
+  display: inline-block;
+  white-space: nowrap;
+  animation: scrollBanner 40s linear infinite;
+}
+
+@keyframes scrollBanner {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+
+  
+  /* 🟡 Hero section (top) */
+.masthead {
+  background: #E5E6C4 !important;      /* eggshell */
+  background-image: none !important;
+  min-height: 100vh;                    /* ✅ full screen height */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;              /* ✅ vertical centering */
+  align-items: center;                  /* ✅ horizontal centering */
+  text-align: center;                   /* ✅ center text alignment */
+  padding: 0;                           /* ✅ remove extra padding */
+  margin: 0;
+}
+
+  /* 🟢 Middle content section */
+  .middle-section {
+    background-color: #899878; /* muted green */
+    min-height: 30vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  /* 🟢 Footer section */
+  .footer-section {
+    background-color: #1a1f1d; /* dark green */
+    padding: 1rem 0;
+    text-align: center;
+
+
+
+  }
+  /* 🔘 Bigger, bold buttons with Frank font */
+.hero-btn {
+  font-family: 'Frank Ruhl Libre', serif;   /* ✅ added font */
+  font-weight: 450;                         /* ✅ bold text */
+  font-size: 2rem;                          /* ✅ large text */
+  padding: 1.05rem 3.05rem;                   /* ✅ large button size */
+  border-radius: 14px;
+  margin: 0.75rem;
+  letter-spacing: 0.5px;                    /* ✅ optional: slightly more spaced */
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+
+
+
+.hero-btn:hover {
+  transform: scale(1.05);
+}
+</style>
+
+<!-- 🔁 Scrolling free Banner -->
+<div class="free-banner">
+  <div class="free-banner-track">
+    <span>free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · free · frees</span>
+  </div>
+</div>
+
+
 <header class="masthead bg-index eggshell-text text-center py-5">
   <div class="container d-flex align-items-center flex-column pt-5">
     <div class="eggshell-text mb-4">
-      <h1 class="mb-2">Welcome to ????</h1>
-      <p class="mb-0">Find Food. Post Food.</p>
+      <h1 class="mb-2" style="font-family: 'Fraunces', serif; font-weight: 700; font-size: 6rem;">
+        Welcome to ????
+      </h1>
+      <h2 class="mb-0" style="font-family: 'Frank Ruhl Libre', serif; font-weight: 400; font-size: 1.75rem; font-style: normal;">
+      Find Food. Post Food.
+      </h2>
     </div>
   </div>
 </header>
-<div class="p-4">
+
+<div class="middle-section p-4">
   <div class="container">
     <div class="row mt-4">
       <div class="col mx-auto text-center mb-4">
-        <div class="mt-3">
-        <a href="{#}" class="btn btn-lg navy-bg eggshell-text me-3">Find Food</a>
-        <a href="{#}" class="btn btn-lg navy-bg eggshell-text me-3">Post Food</a>
-        <a href="#" class="btn btn-lg navy-bg eggshell-text me-3">About</a>
+        <div class="mt-4 text-center">
+          <a href="{#}" class="btn navy-bg eggshell-text hero-btn">Find Food</a>
+          <a href="{#}" class="btn navy-bg eggshell-text hero-btn">Post Food</a>
+          <a href="#" class="btn navy-bg eggshell-text hero-btn">About</a>
         </div>
       </div>
     </div>
-
   </div>
 </div>
+
+
+
 {% endblock content %}

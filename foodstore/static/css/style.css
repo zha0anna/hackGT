@@ -1,3 +1,6 @@
+
+
+
 /* Ensure eggshell text color is applied with highest specificity */
 html .eggshell-text, html .eggshell-text *, html .eggshell-text h1, html .eggshell-text h2, html .eggshell-text h3, html .eggshell-text h4, html .eggshell-text h5, html .eggshell-text h6, html .eggshell-text p, html .eggshell-text span, html .eggshell-text a, html .eggshell-text div {
   color: #222725 !important;
@@ -112,4 +115,33 @@ html .eggshell-text, html .eggshell-text *, html .eggshell-text h1, html .eggshe
 .job-card:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+
+
+
+h1, h2, h3{
+  font-family: 'Fraunces', serif;
+  font-weight: 900;
+  font-style: italic;
+  color: #000;  
+}
+
+
+p,
+li,
+ol,
+ul,
+.display-4 {
+  font-family: 'Frank Ruhl Libre', serif;
+}
+
+
+
+body { background-color: #E5E6C4; }
+
+
+.navbar-nav .nav-link {
+  font-family: 'Frank Ruhl Libre', serif !important;
+  font-weight: 500;
 }
