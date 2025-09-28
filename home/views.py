@@ -1,7 +1,7 @@
 from django.shortcuts import render
 
 def index(request):
-    template_data = {"title": "Food - Home"}
+    template_data = {"title": "Food Fairy"}
     return render(request, 'home/index.html', {"template_data": template_data})
 
 def about_page(request): 
