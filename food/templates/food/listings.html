@@ -83,6 +83,26 @@
   <h2 class="mb-4 eggshell-text">Find Food</h2>
 
   <div class="row" id="listings-container">
+      {% if suggested_posts %}
+    <h3 class="mb-3">Recommended based on your past claims</h3>
+    <div class="row">
+      {% for post in suggested_posts %}
+      <div class="col-md-4 mb-3">
+        <div class="card p-3 shadow-sm">
+          <h5 class="card-title" style="font-family: 'Frank Ruhl Libre', serif; font-weight: 600;">
+            {{ post.title }}</h5>
+            <p class="card-text" style="font-family: 'Frank Ruhl Libre', serif; font-weight: 400;">
+              {{ listing.description|truncatewords:20 }}
+            </p>
+          <p class="card-text" style="font-family: 'Frank Ruhl Libre', serif; font-weight: 400;">{{ post.description }}</p>
+          <a href="{% url 'listing_detail' post.pk %}" class="btn navy-bg eggshell-text btn-sm">View Details</a>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    <hr>
+  {% endif %}
+  <h3 class="mb-3">All Listings</h3>
     {% for listing in listings %}
       <div class="col-md-4 mb-4 listing-card" data-title="{{ listing.title|lower }}" data-location="{{ listing.location|lower }}">
         <div class="card job-card">

@@ -2,10 +2,26 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from .models import FoodListing
 from .forms import FoodListingForm, CommentForm
+from .utils import get_most_preferred_location
+from collections import Counter
 
 def listings_view(request):
     listings = FoodListing.objects.filter(claimed=False).order_by("-created_at")
-    return render(request, "food/listings.html", {"listings": listings})
+    suggested_posts = []
+
+    if request.user.is_authenticated:
+        # get user's previously claimed locations
+        user_history = list(request.user.claimed_food.values_list("location", flat=True))
+        print("User history of locations:", user_history)
+        favorite_location = get_most_preferred_location(user_history)
+
+        if favorite_location:
+            suggested_posts = listings.filter(location=favorite_location)[:3]
+
+    return render(request, "food/listings.html", {
+        "listings": listings,
+        "suggested_posts": suggested_posts
+    })
 
 @login_required
 def create_listing_view(request):

@@ -1,27 +1,18 @@
-import openai
-import os
+from openai import OpenAI
+from django.conf import settings
+from collections import Counter
+import difflib
+import re
 
-openai.api_key = os.environ.get("OPENAI_API_KEY")
+
+client = OpenAI(api_key=settings.OPENAI_API_KEY)
 
 
-def get_suggested_listings(user_history, all_posts):
-    """
-    user_history: list of strings (titles of previously claimed foods)
-    all_posts: list of dicts with 'title' and 'location'
-    returns: list of suggested posts (max 4)
-    """
-    prompt = f"""
-    You are a helpful assistant. Suggest at most 4 food listings from the list below
-    that match the user's previous claimed foods (titles: {user_history}).
-    Only suggest items that are currently unclaimed.
+def get_most_preferred_location(user_history):
+    response = client.responses.create(
+    model="gpt-5",
+    input="Find the most frequent location from the following list and only return the string, no spaces: " + ", ".join(user_history) 
+)
+    return response.output_text
+    print("OpenAI response for preferred location:", response.output_text)
 
-    Listings:
-    {all_posts}
-    """
-    response = openai.ChatCompletion.create(
-        model="gpt-5-mini",
-        messages=[{"role": "user", "content": prompt}],
-        max_tokens=300
-    )
-    suggestions = response['choices'][0]['message']['content']
-    return suggestions
